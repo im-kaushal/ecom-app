@@ -1,0 +1,35 @@
+# UI .gitignore
+node_modules/
+dist/
+out-tsc/
+.angular/
+.eslintcache
+*.log
+npm-debug.log*
+*.tar.gz
+yarn-error.log*
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Test coverage
+coverage/
+
+# Build artifacts
+*.js.map
+*.d.ts.map
+
+# OS
+.DS_Store
+desktop.ini

@@ -1,0 +1,255 @@
+.metrics-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.metrics-title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #00d4ff;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.metrics-title .icon {
+  font-size: 1.3rem;
+}
+
+/* Quality Score Card */
+.quality-card {
+  padding: 1.5rem;
+  border-radius: 10px;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 2px solid;
+}
+
+.quality-card.quality-excellent {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(56, 142, 60, 0.1));
+  border-color: rgba(76, 175, 80, 0.5);
+  box-shadow: 0 0 20px rgba(76, 175, 80, 0.2);
+}
+
+.quality-card.quality-good {
+  background: linear-gradient(135deg, rgba(66, 165, 245, 0.1), rgba(33, 150, 243, 0.1));
+  border-color: rgba(66, 165, 245, 0.5);
+  box-shadow: 0 0 20px rgba(66, 165, 245, 0.2);
+}
+
+.quality-card.quality-average {
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.1), rgba(251, 140, 0, 0.1));
+  border-color: rgba(255, 193, 7, 0.5);
+  box-shadow: 0 0 20px rgba(255, 193, 7, 0.2);
+}
+
+.quality-card.quality-fair {
+  background: linear-gradient(135deg, rgba(255, 152, 0, 0.1), rgba(255, 111, 0, 0.1));
+  border-color: rgba(255, 152, 0, 0.5);
+  box-shadow: 0 0 20px rgba(255, 152, 0, 0.2);
+}
+
+.quality-card.quality-critical {
+  background: linear-gradient(135deg, rgba(244, 67, 54, 0.1), rgba(211, 47, 47, 0.1));
+  border-color: rgba(244, 67, 54, 0.5);
+  box-shadow: 0 0 20px rgba(244, 67, 54, 0.2);
+}
+
+.score-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.score-icon {
+  font-size: 2rem;
+}
+
+.score-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #00d4ff, #0099ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.score-max {
+  font-size: 0.9rem;
+  color: #888;
+  margin-top: 0.5rem;
+}
+
+.score-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #e0e0e0;
+  margin-bottom: 0.75rem;
+}
+
+.score-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+.score-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00d4ff, #0099ff);
+  border-radius: 10px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
+}
+
+/* Issues Summary */
+.issues-summary {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.summary-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  border-left: 3px solid;
+  transition: all 0.3s ease;
+}
+
+.summary-item:hover {
+  background: rgba(0, 0, 0, 0.3);
+  transform: translateX(4px);
+}
+
+.summary-item.critical {
+  border-left-color: #ff4444;
+}
+
+.summary-item.high {
+  border-left-color: #ff9000;
+}
+
+.summary-item.medium {
+  border-left-color: #ffcc00;
+}
+
+.summary-item.low {
+  border-left-color: #00d4ff;
+}
+
+.summary-icon {
+  font-size: 1.5rem;
+}
+
+.summary-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.summary-count {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #e0e0e0;
+}
+
+.summary-label {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Total Issues */
+.total-issues {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 100, 150, 0.2);
+  border-radius: 8px;
+  border: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+.total-label {
+  font-size: 0.9rem;
+  color: #aaa;
+  font-weight: 500;
+}
+
+.total-count {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #00d4ff, #0099ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Progress Info */
+.progress-info {
+  padding: 1rem;
+  background: rgba(0, 150, 100, 0.1);
+  border-radius: 8px;
+  border-left: 3px solid rgba(0, 200, 100, 0.5);
+}
+
+.progress-info p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #d0d0d0;
+  line-height: 1.5;
+}
+
+.progress-info strong {
+  color: #4caf50;
+  font-weight: 600;
+}
+
+.info-text {
+  color: #aaa;
+  margin-top: 0.4rem;
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .metrics-container {
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .score-value {
+    font-size: 2rem;
+  }
+
+  .issues-summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

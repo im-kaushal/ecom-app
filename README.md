@@ -2,20 +2,26 @@
 
 An intelligent AI-powered code review agent that analyzes JavaScript code and provides comprehensive feedback on code quality, best practices, and potential issues.
 
+**Now with a Beautiful Angular UI! 🎨**
+
 ## 🎯 Features
 
+### Backend Agent
 - **Intelligent Code Analysis**: Automatically detects common JavaScript issues
-- **Multiple Review Rules**: 
-  - Console statements detection
-  - Unused variables detection
-  - Function complexity analysis
-  - Naming convention checks
-  - Error handling validation
-  - Missing documentation detection
+- **Multiple Review Rules**: Console, variables, complexity, naming, error handling, documentation
 - **Multiple Output Formats**: JSON, Table (CLI), and HTML reports
 - **Batch File Processing**: Review entire directories or file patterns
 - **Quality Metrics**: Calculate code quality scores and issue statistics
 - **Extensible Architecture**: Easy to add custom review rules
+
+### Angular UI
+- **Beautiful Dark Theme**: Modern cyberpunk-inspired interface
+- **Real-time Analysis**: Instant feedback as you code
+- **Interactive Dashboard**: Visual metrics and quality insights
+- **Issue Management**: Expandable issue details with suggestions
+- **Severity Filtering**: Filter issues by severity level
+- **Responsive Design**: Works on desktop and mobile
+- **Copy Suggestions**: Clipboard integration
 
 ## 📋 Available Review Rules
 
@@ -43,11 +49,65 @@ An intelligent AI-powered code review agent that analyzes JavaScript code and pr
    - Checks for missing JSDoc comments
    - Promotes code documentation
 
+## 🚀 Quick Start
+
+### Option 1: Use the Angular UI (Recommended)
+```bash
+cd ui
+npm install
+npm start
+```
+Open http://localhost:4200/ - Start analyzing code visually!
+
+### Option 2: Use CLI
+```bash
+npm install
+npm run review -- file src/example.js
+```
+Get CLI-based analysis with tables, JSON, or HTML reports.
+
+## 📁 Project Structure
+
+```
+ecom-app/
+├── src/                      # Backend agent
+│   ├── agent.js             # Core analysis engine
+│   ├── cli.js               # CLI interface
+│   ├── formatter.js         # Report formatting
+│   └── index.js             # Entry point
+├── ui/                       # Angular web UI
+│   ├── src/
+│   │   ├── app/
+│   │   │   ├── components/  # Editor, Issues, Metrics
+│   │   │   ├── services/    # Code review service
+│   │   │   └── models/      # TypeScript types
+│   │   ├── main.ts          # Bootstrap
+│   │   ├── index.html       # Main page
+│   │   └── styles.css       # Global styles
+│   ├── angular.json         # Angular config
+│   └── package.json         # UI dependencies
+├── examples/                # Sample code files
+├── package.json             # Backend dependencies
+└── README.md
+```
+
+## 🖥️ User Interface Tour
+
+### Dashboard
+- **Code Editor**: Syntax-aware input area with line counting
+- **Metrics Panel**: Real-time quality score and statistics
+- **Issues List**: Expandable issue display with suggestions
+- **Severity Filters**: Quick filtering by issue severity
+
+### Color Coding
+- 🔴 **Critical**: Must fix immediately
+- 🟠 **High**: Significant issues
+- 🟡 **Medium**: Should fix soon
+- 🔵 **Low**: Nice to fix
+
 ## 🚀 Installation
 
-### From Source
-
-```bash
+### Option 1: Installation
 npm install
 ```
 
