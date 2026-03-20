@@ -62,6 +62,15 @@ cd ui
 npm install
 ```
 
+### Free deployment (GitHub Pages)
+1. Push `main` to GitHub.
+2. This workflow file triggers build + deploy: `.github/workflows/deploy-ui.yml`.
+3. The UI output path is `ui/dist/js-code-review-ui`.
+4. In repo Settings > Pages, set source to `gh-pages` (root).
+5. Visit the published URL like `https://<username>.github.io/<repo>`.
+
+> The Angular UI has the full analysis logic in-browser (`CodeReviewService`), so this is a complete free website deploy with service behavior.
+
 ---
 
 ## ▶️ Running the agent
