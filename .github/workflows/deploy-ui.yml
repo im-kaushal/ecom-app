@@ -27,10 +27,10 @@ jobs:
         run: npm run build -- --configuration production
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v5
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./ui/dist/js-code-review-ui
           publish_branch: gh-pages
-          user_name: github-actions[bot]
+          user_name: im-kaushal
           user_email: github-actions[bot]@users.noreply.github.com
