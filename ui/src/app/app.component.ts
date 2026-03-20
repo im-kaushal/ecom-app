@@ -32,6 +32,7 @@ export class AppComponent implements OnInit, OnDestroy {
   selectedSeverity: string = 'all';
   optimizedCode: string = '';
   copied = false;
+  lastReviewedCode: string = '';
   codeContent = `// Example JavaScript Code
 function calculatePrice(quantity, unitPrice) {
   console.log('Calculating...');
@@ -62,6 +63,17 @@ function calculatePrice(quantity, unitPrice) {
       .subscribe((issues: CodeIssue[]) => {
         this.allIssues = issues;
         this.issues = this.filterIssuesBySeverity(issues);
+        // Generate optimized code when issues are updated
+        if (this.lastReviewedCode && issues.length > 0) {
+          const optimized = this.generateOptimizedCode(this.lastReviewedCode, issues);
+          if (optimized !== this.lastReviewedCode.trim()) {
+            this.optimizedCode = optimized;
+          } else {
+            this.optimizedCode = '';
+          }
+        } else {
+          this.optimizedCode = '';
+        }
       });
 
     this.codeReviewService.getMetrics()
@@ -84,11 +96,11 @@ function calculatePrice(quantity, unitPrice) {
   }
 
   onReview(code: string): void {
+    this.lastReviewedCode = code;
     this.codeReviewService.reviewCode(code, 'code.js').subscribe({
       next: (result: any) => {
         console.log('Review completed:', result);
-        // Generate optimized code after review
-        this.optimizedCode = this.generateOptimizedCode(code, this.issues);
+        // Optimized code will be generated when issues are updated via subscription
       },
       error: (err: any) => {
         console.error('Review error:', err);
@@ -112,6 +124,7 @@ function calculatePrice(quantity, unitPrice) {
     this.codeReviewService.clearResults();
     this.codeContent = '';
     this.optimizedCode = '';
+    this.lastReviewedCode = '';
   }
 
   copyOptimizedCode(): void {
@@ -183,6 +196,14 @@ function calculatePrice(quantity, unitPrice) {
       default:
         return '⭕';
     }
+  }
+
+  getCriticalCount(): number {
+    return this.allIssues.filter(issue => issue.severity === 'critical').length;
+  }
+
+  getHighCount(): number {
+    return this.allIssues.filter(issue => issue.severity === 'high').length;
   }
 
   ngOnDestroy(): void {

@@ -1,364 +1,183 @@
 # JavaScript Code Review Agent
 
-An intelligent AI-powered code review agent that analyzes JavaScript code and provides comprehensive feedback on code quality, best practices, and potential issues.
+A complete, standalone JavaScript code review solution with a CLI backend and an optional Angular UI. This single file is now the canonical documentation for setup, usage, architecture, and development.
 
-**Now with a Beautiful Angular UI! 🎨**
+---
 
-## 🎯 Features
+## 🚀 What it is
+- CLI-powered code review agent: `npm run review` supports file, directory, report, rule list, severity filters.
+- Optional Angular dashboard (`ui/`) for real-time issues and quality metrics.
+- Rule-based analysis: `no-console`, `no-unused-vars`, complexity, naming, error handling, comments, etc.
+- Output formats: Table (CLI), JSON, HTML report.
 
-### Backend Agent
-- **Intelligent Code Analysis**: Automatically detects common JavaScript issues
-- **Multiple Review Rules**: Console, variables, complexity, naming, error handling, documentation
-- **Multiple Output Formats**: JSON, Table (CLI), and HTML reports
-- **Batch File Processing**: Review entire directories or file patterns
-- **Quality Metrics**: Calculate code quality scores and issue statistics
-- **Extensible Architecture**: Easy to add custom review rules
+---
 
-### Angular UI
-- **Beautiful Dark Theme**: Modern cyberpunk-inspired interface
-- **Real-time Analysis**: Instant feedback as you code
-- **Interactive Dashboard**: Visual metrics and quality insights
-- **Issue Management**: Expandable issue details with suggestions
-- **Severity Filtering**: Filter issues by severity level
-- **Responsive Design**: Works on desktop and mobile
-- **Copy Suggestions**: Clipboard integration
+## 🧩 Use cases
+1. Local pre-commit code quality checks in development
+2. CI/CD code review step for JavaScript repos
+3. IDE tooling augmentation via batch reports
+4. Teaching and enforcement of coding standards
+5. Exporting shareable HTML reports for audit
 
-## 📋 Available Review Rules
+---
 
-1. **Console Statements** (`no-console`)
-   - Detects console.log, console.warn, etc.
-   - Helps ensure clean production code
+## ⚙️ Prerequisites
+- Node.js 18+ (recommended)
+- npm
+- Optional: modern browser for Angular UI
 
-2. **Unused Variables** (`no-unused-vars`)
-   - Identifies declared but unused variables
-   - Promotes code cleanliness
+---
 
-3. **Function Complexity** (`high-complexity`)
-   - Flags functions with high cyclomatic complexity
-   - Suggests breaking down complex functions
+## 📦 Repository structure
+```
+ ecom-app/
+  ├── src/                # Backend code review engine
+  │   ├── agent.js
+  │   ├── cli.js
+  │   ├── formatter.js
+  │   └── index.js
+  ├── ui/                 # Optional Angular UI
+  │   ├── angular.json
+  │   ├── package.json
+  │   └── src/app/...     # components, services, models
+  ├── examples/           # sample code used by quickstart
+  ├── tests/              # unit tests for agent logic
+  ├── package.json        # backend dependencies & scripts
+  ├── README.md           # this file
+  ├── COMPLETE_SETUP.md   # (removed, content merged)
+  ├── ...                # other markdown files removed
+```
 
-4. **Naming Conventions** (`naming-convention`)
-   - Checks for proper camelCase variable names
-   - Detects snake_case usage
+---
 
-5. **Error Handling** (`missing-error-handling`)
-   - Detects async/await without try-catch
-   - Ensures proper error management
+## 🛠️ Installation
+### Backend CLI
+```bash
+npm install
+```
 
-6. **Comments** (`comment-quality`)
-   - Checks for missing JSDoc comments
-   - Promotes code documentation
-
-## 🚀 Quick Start
-
-### Option 1: Use the Angular UI (Recommended)
+### Optional Angular UI
 ```bash
 cd ui
 npm install
+```
+
+---
+
+## ▶️ Running the agent
+### Start CLI (prints commands)
+```bash
 npm start
 ```
-Open http://localhost:4200/ - Start analyzing code visually!
 
-### Option 2: Use CLI
+### Review a single file
 ```bash
-npm install
-npm run review -- file src/example.js
-```
-Get CLI-based analysis with tables, JSON, or HTML reports.
-
-## 📁 Project Structure
-
-```
-ecom-app/
-├── src/                      # Backend agent
-│   ├── agent.js             # Core analysis engine
-│   ├── cli.js               # CLI interface
-│   ├── formatter.js         # Report formatting
-│   └── index.js             # Entry point
-├── ui/                       # Angular web UI
-│   ├── src/
-│   │   ├── app/
-│   │   │   ├── components/  # Editor, Issues, Metrics
-│   │   │   ├── services/    # Code review service
-│   │   │   └── models/      # TypeScript types
-│   │   ├── main.ts          # Bootstrap
-│   │   ├── index.html       # Main page
-│   │   └── styles.css       # Global styles
-│   ├── angular.json         # Angular config
-│   └── package.json         # UI dependencies
-├── examples/                # Sample code files
-├── package.json             # Backend dependencies
-└── README.md
+npm run review -- file examples/sample-code.js
 ```
 
-## 🖥️ User Interface Tour
-
-### Dashboard
-- **Code Editor**: Syntax-aware input area with line counting
-- **Metrics Panel**: Real-time quality score and statistics
-- **Issues List**: Expandable issue display with suggestions
-- **Severity Filters**: Quick filtering by issue severity
-
-### Color Coding
-- 🔴 **Critical**: Must fix immediately
-- 🟠 **High**: Significant issues
-- 🟡 **Medium**: Should fix soon
-- 🔵 **Low**: Nice to fix
-
-## 🚀 Installation
-
-### Option 1: Installation
-npm install
-```
-
-### Global Installation
-
-```bash
-npm install -g .
-```
-
-## 📖 Usage
-
-### Review a Single File
-
-```bash
-npm run review -- file src/example.js
-```
-
-**Options:**
-- `-s, --severity <level>`: Filter by severity (critical, high, medium, low, all)
-- `-f, --format <type>`: Output format (json, table, html)
-
-### Review a Directory
-
+### Review a directory pattern
 ```bash
 npm run review -- directory "src/**/*.js"
 ```
 
-### Generate HTML Report
-
-```bash
-npm run review -- report "src/**/*.js" -o review-report.html -f html
-```
-
-### List Available Rules
-
-```bash
-npm run review -- rules
-```
-
-### Watch Files for Changes
-
-```bash
-npm run review -- watch "src/**/*.js"
-```
-
-## 📊 Output Formats
-
-### Table Format (Default)
-
-```
-═════════════════════════════════════════
-          CODE REVIEW REPORT
-═════════════════════════════════════════
-
-📊 Code Quality Metrics:
-   Total Issues: 5
-   🔴 Critical: 0
-   🟠 High: 1
-   🟡 Medium: 2
-   🔵 Low: 2
-   Quality Score: 75/100
-
-⚠️  Issues Found:
-
-1. Console Statement
-   🟠 Severity: HIGH
-   📄 File: src/app.js:42
-   💬 Remove console.log() statement before production
-   → Suggestion: Use a logging library instead
-```
-
-### JSON Format
-
-```bash
-npm run review -- file src/app.js -f json
-```
-
-```json
-{
-  "file": "src/app.js",
-  "issues": [
-    {
-      "file": "src/app.js",
-      "line": 42,
-      "severity": "high",
-      "type": "Console Statement",
-      "message": "Remove console.log() statement before production",
-      "suggestion": "Use a logging library instead"
-    }
-  ],
-  "metrics": {
-    "totalIssues": 1,
-    "criticalIssues": 0,
-    "highIssues": 1,
-    "mediumIssues": 0,
-    "lowIssues": 0,
-    "qualityScore": 95
-  }
-}
-```
-
-### HTML Format
-
+### Generate HTML report
 ```bash
 npm run review -- report "src/**/*.js" -o report.html -f html
 ```
 
-Generates a beautiful, interactive HTML report with:
-- Code quality metrics dashboard
-- Color-coded issue severity indicators
-- File-by-file breakdowns
-- Interactive issue details
-
-## 🔧 Configuration
-
-### .eslintrc.json
-
-Configure ESLint rules for the project:
-
-```json
-{
-  "rules": {
-    "no-console": "warn",
-    "no-unused-vars": "error",
-    "prefer-const": "warn"
-  }
-}
-```
-
-### .prettierrc
-
-Configure code formatting:
-
-```json
-{
-  "semi": true,
-  "singleQuote": true,
-  "printWidth": 100,
-  "tabWidth": 2
-}
-```
-
-## 🛠️ Development
-
-### Build
-
-The agent is written in ES Modules and requires Node.js 14+.
-
-### Test
-
+### List rules
 ```bash
-npm test
+npm run review -- rules
 ```
 
-### Lint
-
+### Watch files (if supported)
 ```bash
-npm run lint
+npm run review -- watch "src/**/*.js"
 ```
-
-### Format
-
-```bash
-npm run format
-```
-
-## 📚 API Usage
-
-You can also use the agent programmatically:
-
-```javascript
-import { CodeReviewAgent } from './src/agent.js';
-
-const agent = new CodeReviewAgent({
-  severity: 'high',
-  rules: agent.getDefaultRules()
-});
-
-// Review a single file
-const result = await agent.reviewFile('src/app.js');
-console.log(result.issues);
-
-// Review multiple files
-const results = await agent.reviewFiles('src/**/*.js');
-
-// Get metrics
-const report = agent.generateReport();
-console.log(report.metrics);
-```
-
-## 🚀 Advanced Features
-
-### Custom Rules
-
-Extend the agent with custom rules:
-
-```javascript
-const customRule = {
-  id: 'custom-rule',
-  name: 'Custom Check',
-  check: (content, lines, filePath) => {
-    const issues = [];
-    // Your custom logic here
-    return issues;
-  }
-};
-
-const agent = new CodeReviewAgent({
-  rules: [...agent.getDefaultRules(), customRule]
-});
-```
-
-### Severity Filtering
-
-Filter results by severity:
-
-```bash
-npm run review -- file src/app.js -s high
-```
-
-Valid severity levels: `critical`, `high`, `medium`, `low`, `all`
-
-## 📈 Quality Score Calculation
-
-Quality Score = 100 - (Total Issues × 5)
-
-- 90-100: Excellent
-- 80-89: Good
-- 70-79: Average
-- 60-69: Fair
-- Below 60: Needs Improvement
-
-## 🤝 Contributing
-
-Contributions are welcome! To add new review rules:
-
-1. Create a new rule function in `src/agent.js`
-2. Add it to the `getDefaultRules()` method
-3. Update this README with the new rule
-4. Submit a pull request
-
-## 📄 License
-
-ISC
-
-## 🎓 Learn More
-
-- [ESLint Documentation](https://eslint.org/docs/)
-- [JavaScript Best Practices](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide)
-- [Code Review Best Practices](https://github.com/features/code-review)
 
 ---
 
-**Made with ❤️ by Kaushal**
+## 🧪 Output options
+- `-f table` (default): readable terminal table
+- `-f json`: machine-readable JSON
+- `-f html`: browser-friendly report
+- `-s <critical|high|medium|low|all>`: severity filter
+
+### Example command
+```bash
+npm run review -- file src/index.js -f json -s high
+```
+
+---
+
+## 🧭 Common violations checked
+- `no-console` (e.g., `console.log` in production code)
+- `no-unused-vars` (declared but unused identifiers)
+- `high-complexity` (cyclomatic complexity threshold)
+- `naming-convention` (camelCase / snake_case rules)
+- `missing-error-handling` (`await` without `try/catch`)
+- `comment-quality` (missing JSDoc-style comments)
+
+---
+
+## 🧩 Angular UI (Optional)
+1. `cd ui`
+2. `npm start`
+3. Open `http://localhost:4200`
+
+### UI features
+- Code editor panel
+- Real-time analysis and metrics
+- Issues summary and filters
+- Copy suggestions / clipboard actions
+
+---
+
+## 🗺️ Diagram (architecture)
+```text
+[User] -> [CLI: src/cli.js] -> [Agent: src/agent.js] -> [Rules Engine]
+                                            \-> [formatter.js] -> [table/json/html]
+
+[User] -> [Browser UI: ui/src/app] -> [CodeReviewService] -> [CLI/results API]
+```
+
+---
+
+## 🔧 Scripts
+- `npm start`: start agent greeting + usage
+- `npm run review`: run code review CLI
+- `npm test`: run tests (`node --test tests/**/*.test.js`)
+- `npm run lint`: run ESLint
+- `npm run format`: run Prettier
+
+---
+
+## 🧹 Maintenance
+- Run `npm test` regularly
+- Use `npm run lint` and `npm run format`
+- Add rules in `src/agent.js` as required
+
+---
+
+## 🪝 Integration examples
+1. Pre-commit hook (Husky): `npm run review -- directory "src/**/*.js" -s high`
+2. GitHub Actions step:
+```yaml
+- uses: actions/checkout@v4
+- uses: actions/setup-node@v4
+  with: node-version: '18'
+- run: npm install
+- run: npm run review -- directory "src/**/*.js" -f json > code-review.json
+```
+
+---
+
+## 🐞 Troubleshooting
+- `npm run review` missing: run `npm install`
+- no issues found unexpectedly: verify glob pattern and file extensions
+- HTML file not generated: verify `-o output.html` is provided
+
+---
+
+## 📌 Note
+This document is now the single source of truth. All previous markdown files were removed to avoid duplication.
