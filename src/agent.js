@@ -351,6 +351,14 @@ export class CodeReviewAgent {
   }
 
   /**
+   * Review repository at path for JavaScript/TypeScript files.
+   */
+  async reviewRepository(repoPath) {
+    const pattern = path.join(repoPath, '**/*.{js,jsx,ts,tsx}');
+    return await this.reviewFiles(pattern);
+  }
+
+  /**
    * Reset issues
    */
   reset() {

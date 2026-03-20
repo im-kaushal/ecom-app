@@ -99,6 +99,18 @@ npm run review -- report "src/**/*.js" -o report.html -f html
 npm run review -- rules
 ```
 
+### Review a GitHub repository URL
+```bash
+# Public repo
+npm run review -- github https://github.com/<owner>/<repo>.git
+
+# Private repo (PAT from env)
+GITHUB_TOKEN=<your_token> npm run review -- github https://github.com/<owner>/<repo>.git
+
+# Private repo (explicit token)
+npm run review -- github https://github.com/<owner>/<repo>.git -t <your_token>
+```
+
 ### Watch files (if supported)
 ```bash
 npm run review -- watch "src/**/*.js"

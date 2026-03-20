@@ -10,8 +10,52 @@ import { CodeReviewAgent } from './agent.js';
 import { ReportFormatter } from './formatter.js';
 import fs from 'fs/promises';
 import path from 'path';
+import os from 'os';
+import { exec as execFn } from 'child_process';
+import { promisify } from 'util';
+
+const exec = promisify(execFn);
 
 const formatter = new ReportFormatter();
+
+function buildAuthUrl(repoUrl, token) {
+  if (!token || !repoUrl.startsWith('https://')) {
+    return repoUrl;
+  }
+
+  const url = new URL(repoUrl);
+  if (url.hostname !== 'github.com') {
+    return repoUrl;
+  }
+
+  // Avoid leaking token in logs and keep auth valid for private repositories
+  url.username = token;
+  url.password = '';
+  return url.toString();
+}
+
+async function cloneRepository(repoUrl, token, branch) {
+  const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'code-review-repo-'));
+  let cloneUrl = repoUrl;
+
+  if (token) {
+    cloneUrl = buildAuthUrl(repoUrl, token);
+  }
+
+  const branchArg = branch ? `--branch ${branch}` : '';
+  const cloneCmd = `git clone --depth 1 ${branchArg} ${cloneUrl} ${tempDir}`;
+
+  await exec(cloneCmd, { env: process.env });
+  return tempDir;
+}
+
+async function removeDirectory(dirPath) {
+  try {
+    await fs.rm(dirPath, { recursive: true, force: true });
+  } catch (err) {
+    console.warn(chalk.yellow(`⚠️ Failed to clean up temp dir ${dirPath}: ${err.message}`));
+  }
+}
 
 async function main() {
   program
@@ -68,6 +112,43 @@ async function main() {
       } catch (error) {
         console.error(chalk.red(`✗ Error: ${error.message}`));
         process.exit(1);
+      }
+    });
+
+  program
+    .command('github <repoUrl>')
+    .description('Clone and review a GitHub repository URL (supports private repo via token)')
+    .option('-t, --token <token>', 'GitHub personal access token (or set GITHUB_TOKEN env var)')
+    .option('-b, --branch <branch>', 'Repository branch to checkout, default is default branch')
+    .option('-s, --severity <level>', 'Filter by severity', 'all')
+    .option('-f, --format <type>', 'Output format (json, table, html)', 'table')
+    .action(async (repoUrl, options) => {
+      const token = options.token || process.env.GITHUB_TOKEN;
+      let tempDir;
+
+      try {
+        tempDir = await cloneRepository(repoUrl, token, options.branch);
+
+        const agent = new CodeReviewAgent({ severity: options.severity });
+        const results = await agent.reviewRepository(tempDir);
+
+        const report = {
+          repository: repoUrl,
+          branch: options.branch || 'default',
+          filesReviewed: results.length,
+          results: results,
+          metrics: agent.calculateMetrics(),
+          allIssues: agent.issues
+        };
+
+        formatter.printReport(report, options.format);
+      } catch (error) {
+        console.error(chalk.red(`✗ Error reviewing repository: ${error.message}`));
+        process.exit(1);
+      } finally {
+        if (tempDir) {
+          await removeDirectory(tempDir);
+        }
       }
     });
 
